@@ -134,11 +134,14 @@ class Hugo_Export
             // Mark private posts as drafts as well, so they don't get
             // inadvertently published.
             $output['draft'] = true;
+        } else {
+        	$output['published'] = true;
         }
         if ($post->post_status == 'private') {
             // hugo doesn't have the concept 'private posts' - this is just to
             // disambiguate between private posts and drafts.
             $output['private'] = true;
+            $output['hideInList'] = true;
         }
 
         //turns permalink into 'url' format, since Hugo supports redirection on per-post basis
@@ -278,7 +281,7 @@ class Hugo_Export
 
             // Hugo doesn't like word-wrapped permalinks
             $output = Spyc::YAMLDump($meta, false, 0);
-
+			
             $output .= "\n---\n";
             $output .= $this->convert_content($post);
             if ($this->include_comments) {
